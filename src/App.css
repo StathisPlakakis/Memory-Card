@@ -1,0 +1,23 @@
+header {
+  text-align: center;
+}
+
+h1 {
+  font-size: 4.5rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  letter-spacing: 0.2rem;
+}
+
+span {
+  font-size: 1rem;
+}
+
+.Scores {
+  margin-top: 5rem;
+  display: flex;
+  justify-content: center;
+  gap: 5rem;
+}
