@@ -1,5 +1,5 @@
 import './App.css'
-import Pokemons from './components/pokemond'
+import Pokemons from './components/pokemons'
 import { useState } from 'react'
 
 function App() {
