@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import Pokemon from "./pokemon";
+import '../styles/pokemons.css'
 
 export default function Pokemons() {
   const [pokemons, setPokemons] = useState([]);
@@ -6,7 +8,7 @@ export default function Pokemons() {
   const getPokemonsData = async () => {
     try {
       const response = await fetch(
-        "https://pokeapi.co/api/v2/pokemon?limit=1&offset=0",
+        "https://pokeapi.co/api/v2/pokemon?limit=10&offset=0",
         {
           mode: "cors",
         }
@@ -34,7 +36,13 @@ export default function Pokemons() {
 
   const getPokemonsName = async () => {
     const pokemonsData = await getPokemonsData();
-    const pokemonsName = pokemonsData.map(pokemonData => pokemonData.name)
+    const pokemonsName = pokemonsData.map(pokemonData => {
+      const  word = pokemonData.name
+      const capitalized =
+      word.charAt(0).toUpperCase()
+      + word.slice(1);
+      return capitalized;
+    })
     return pokemonsName;
   }
 
@@ -84,9 +92,15 @@ export default function Pokemons() {
   }, []);
 
   return (
-    <div>
+    <div className="pokemons">
       {pokemons.length > 0 ? (
-        pokemons.map((pokemon, index) => <h1 key={index}>hey</h1>)
+        pokemons.map((pokemon, index) => (
+          <Pokemon
+            key={index}
+            name={pokemon.name}
+            img={pokemon.img}
+          />
+        ))
       ) : (
         <p>Loading...</p>
       )}

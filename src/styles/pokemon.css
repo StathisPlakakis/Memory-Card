@@ -1,0 +1,22 @@
+.pokemon {
+  text-align: center;
+  background-color: #161616;
+  position:relative;
+}
+
+.pokemon img {
+  height: 20rem;
+  width: 100%;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+}
+
+.pokemon h3 {
+  margin-bottom: 2rem;
+}
+
+@media (prefers-color-scheme: light) {
+  .pokemon{
+    background-color: #ececec;
+  }
+}
