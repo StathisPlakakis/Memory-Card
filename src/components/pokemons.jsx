@@ -73,6 +73,27 @@ export default function Pokemons() {
     return pokemonsImg;
   }
 
+  const setRandomPokemons = () => {
+    const currentPokemons = pokemons;
+    let randomizedPokemonsPosition = [];
+    let randomizedPokemons= [];
+    while (randomizedPokemonsPosition.length < currentPokemons.length) {
+      let randomPokemonPosition = Math.floor(Math.random() * currentPokemons.length)
+      while (randomizedPokemonsPosition.includes(randomPokemonPosition)) {
+        randomPokemonPosition = Math.floor(Math.random() * currentPokemons.length)
+      }
+      randomizedPokemonsPosition.push(randomPokemonPosition)
+    }
+    for (let i = 0; i < randomizedPokemonsPosition.length; i++){
+      for (let j = 0; j < randomizedPokemonsPosition.length; j++){
+        if (currentPokemons[j].id === randomizedPokemonsPosition[i]){
+          randomizedPokemons.push(currentPokemons[j])
+        }
+      }
+    }
+    setPokemons(randomizedPokemons);
+  }
+
   useEffect(() => {
     const getPokemons = async () => {
       const pokemonsImg = await getPokemonsImg();
@@ -81,7 +102,8 @@ export default function Pokemons() {
       for (let i = 0; i < pokemonsImg.length; i++){
         const pokemonData = {
           name: pokemonsName[i],
-          img: pokemonsImg[i]
+          img: pokemonsImg[i],
+          id: i
         }
         pokemonsData.push(pokemonData)
       }
@@ -94,11 +116,12 @@ export default function Pokemons() {
   return (
     <div className="pokemons">
       {pokemons.length > 0 ? (
-        pokemons.map((pokemon, index) => (
+        pokemons.map((pokemon) => (
           <Pokemon
-            key={index}
+            key={pokemon.id}
             name={pokemon.name}
             img={pokemon.img}
+            onPokemonRandomization={setRandomPokemons}
           />
         ))
       ) : (

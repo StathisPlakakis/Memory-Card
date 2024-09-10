@@ -4,6 +4,10 @@
   position:relative;
 }
 
+.pokemon:hover {
+  cursor: pointer;
+}
+
 .pokemon img {
   height: 20rem;
   width: 100%;
