@@ -1,11 +1,21 @@
 import './App.css'
 import Pokemons from './components/pokemons'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 function App() {
 
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
+
+  const resetScore = () => setScore(0);
+  const incrementScore = () => setScore(score + 1);
+
+
+  useEffect(() => {
+    if (highScore < score) {
+      setHighScore(score);
+    }
+  }, [score])
 
 
   return (
@@ -18,7 +28,10 @@ function App() {
           <h3>High Score: {highScore}</h3>
         </div>
       </header>
-      <Pokemons/>    
+      <Pokemons
+        resetScore={resetScore}
+        incrementScore={incrementScore}
+      />    
     </>
   )
 }

@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import Pokemon from "./pokemon";
 import '../styles/pokemons.css'
 
-export default function Pokemons() {
+export default function Pokemons({resetScore, incrementScore}) {
   const [pokemons, setPokemons] = useState([]);
+  const [afterReset, setAfterReset] = useState(true);
 
   const getPokemonsData = async () => {
     try {
@@ -94,6 +95,12 @@ export default function Pokemons() {
     return randomizedPokemons;
   }
 
+
+  const handleResetScore = () => {
+    resetScore();
+    setAfterReset(true);
+  }
+
   const setPokemonClicked = (id) => {
     const pokemons = setRandomPokemons();
     const pokemonsAfterClick = pokemons.map(pokemon => {
@@ -106,6 +113,17 @@ export default function Pokemons() {
     })
     setPokemons(pokemonsAfterClick);
   }
+
+  useEffect(() => {
+    if (pokemons.some((pokemon) => pokemon.clicked > 1)) {
+      handleResetScore();
+      setPokemons(pokemons.map(pokemon => ({...pokemon, clicked: 0})))
+    }else if(!afterReset) {
+      incrementScore();
+    }else{
+      setAfterReset(false);
+    }
+  }, [pokemons])
 
   useEffect(() => {
     const getPokemons = async () => {
@@ -121,11 +139,14 @@ export default function Pokemons() {
         }
         pokemonsData.push(pokemonData)
       }
+      handleResetScore();
       setPokemons(pokemonsData);
     };
 
     getPokemons();
   }, []);
+
+
 
   return (
     <div className="pokemons">
