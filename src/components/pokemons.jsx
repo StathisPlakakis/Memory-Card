@@ -8,7 +8,7 @@ export default function Pokemons() {
   const getPokemonsData = async () => {
     try {
       const response = await fetch(
-        "https://pokeapi.co/api/v2/pokemon?limit=10&offset=0",
+        "https://pokeapi.co/api/v2/pokemon?limit=20&offset=0",
         {
           mode: "cors",
         }
@@ -91,7 +91,20 @@ export default function Pokemons() {
         }
       }
     }
-    setPokemons(randomizedPokemons);
+    return randomizedPokemons;
+  }
+
+  const setPokemonClicked = (id) => {
+    const pokemons = setRandomPokemons();
+    const pokemonsAfterClick = pokemons.map(pokemon => {
+      if (pokemon.id === id) {
+        const timesClicked = pokemon.clicked;
+        return {...pokemon, clicked: timesClicked + 1};
+      }else {
+        return pokemon;
+      }
+    })
+    setPokemons(pokemonsAfterClick);
   }
 
   useEffect(() => {
@@ -103,7 +116,8 @@ export default function Pokemons() {
         const pokemonData = {
           name: pokemonsName[i],
           img: pokemonsImg[i],
-          id: i
+          id: i,
+          clicked: 0,
         }
         pokemonsData.push(pokemonData)
       }
@@ -119,9 +133,12 @@ export default function Pokemons() {
         pokemons.map((pokemon) => (
           <Pokemon
             key={pokemon.id}
+            id={pokemon.id}
             name={pokemon.name}
             img={pokemon.img}
+            clicked={pokemon.clicked}
             onPokemonRandomization={setRandomPokemons}
+            onPokemonClicked={setPokemonClicked}
           />
         ))
       ) : (
